@@ -10,7 +10,7 @@ const taskInput = document.querySelector("#task");
 const titleInput = document.querySelector("#title");
 const dateInput = document.querySelector("#date");
 
-const toDoList = document.querySelector(".toDolist");
+const toDoList = document.querySelector(".toDoList");
 const tasks = [];
 
 const h1Inbox = document.querySelector(".inbox");
@@ -18,6 +18,16 @@ const h1Inbox = document.querySelector(".inbox");
 const inboxButton = document.querySelector(".inboxButton");
 const todayButton = document.querySelector(".todayButton");
 const weekButton = document.querySelector(".weekButton");
+
+//project
+const projectInput = document.querySelector("#project");
+const addProjectButton = document.querySelector(".projectButton");
+const projectList = document.querySelector(".projectList");
+const projects = [];
+const projectBar = document.querySelector(".projectBar");
+
+const greenButtonProject = document.querySelector("#addButton2");
+const redButtonProject = document.querySelector("#cancelButton2");
 
 addTaskButton.addEventListener("click", () => {
   taskBar.style.visibility = "visible";
@@ -41,7 +51,6 @@ greenButton.addEventListener("click", (e) => {
 
   let task = Task(taskInput.value, titleInput.value, dateInput.value);
   tasks.push(task);
-
   toDoList.appendChild(tasks.slice(-1)[0].div);
 
   //cleanup
@@ -88,14 +97,13 @@ todayButton.addEventListener("click", () => {
   }
 });
 
+//TO-DO make this function work correctly
 weekButton.addEventListener("click", () => {
   h1Inbox.textContent = "This week";
 
   toDoList.textContent = "";
 
   let date = new Date();
-
-  console.log(date.getDay());
 
   let todays = tasks.filter((task) => {
     return task.date == today;
@@ -106,21 +114,78 @@ weekButton.addEventListener("click", () => {
   }
 });
 
+//PROJECT -------------------------------------------------
+
+addProjectButton.addEventListener("click", (e) => {
+  e.preventDefault();
+
+  //TO-DO redundant code
+
+  projectBar.style.visibility = "visible";
+  projectBar.style.height = "100%";
+});
+
+redButtonProject.addEventListener("click", (e) => {
+  e.preventDefault();
+
+  //TO-DO redundant code
+
+  projectBar.style.visibility = "hidden";
+  projectBar.style.height = "0px";
+
+  addProjectButton.style.visibility = "visible";
+  addProjectButton.style.height = "100%";
+});
+
+greenButtonProject.addEventListener("click", (e) => {
+  e.preventDefault();
+
+  //TO-DO redundant code
+
+  projectBar.style.visibility = "hidden";
+  projectBar.style.height = "0px";
+
+  addProjectButton.style.visibility = "visible";
+  addProjectButton.style.height = "100%";
+
+  let project = Project(projectInput.value);
+  project.tasks = ["asda"];
+  projects.push(project);
+  console.log(projects);
+  projectList.appendChild(projects.slice(-1)[0].div);
+  console.log(projectList);
+
+  //cleanup
+  projectInput.value = "";
+});
+
+///////////////////////////////////////////////////////////////////
 const createTaskDiv = (task, title, date) => {
-  //TO-DO Redundant code
+  //TO-DO Redundant code, set taskClass
   let div = document.createElement("div");
   let h20 = document.createElement("h2");
   let h21 = document.createElement("h2");
   let h22 = document.createElement("h2");
 
   h20.textContent = task;
-  div.append(h20);
+  div.appendChild(h20);
 
   h21.textContent = title;
-  div.append(h21);
+  div.appendChild(h21);
 
   h22.textContent = date;
-  div.append(h22);
+  div.appendChild(h22);
+
+  return div;
+};
+
+const createProjectDiv = (project) => {
+  //TO-DO set taskClass
+  let div = document.createElement("div");
+  let h2 = document.createElement("h2");
+
+  h2.textContent = project;
+  div.appendChild(h2);
 
   return div;
 };
@@ -132,4 +197,12 @@ const Task = (task, title, date) => {
   };
   let div = createTaskDiv(task, title, date);
   return { task, title, date, div, printTask };
+};
+
+const Project = (name, tasks) => {
+  const printTasks = () => {
+    console.log(tasks);
+  };
+  let div = createProjectDiv(name);
+  return { name, tasks, div, printTasks };
 };

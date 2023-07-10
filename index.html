@@ -17,13 +17,29 @@
         </div>
         <div class="projects">
           <h2>Projects</h2>
-          <button class="projectButton"><span>+</span>Add a project</button>
+
+          <div class="projectList"></div>
+
+          <button class="projectButton" form="projectForm">
+            <span>+</span>Add a project
+          </button>
+
+          <div class="projectBar">
+            <form action="" id="projectForm">
+              <label for="project">Project</label>
+              <input type="text" id="project" name="project" />
+            </form>
+            <div class="buttons1">
+              <button id="addButton2" form="form">Add</button>
+              <button id="cancelButton2">Cancel</button>
+            </div>
+          </div>
         </div>
       </nav>
 
       <div class="toDos">
         <h1 class="inbox">Inbox</h1>
-        <div class="toDolist"></div>
+        <div class="toDoList"></div>
         <div class="addDiv">
           <button class="addButton"><span>+</span> Add a task</button>
           <div class="taskBar">

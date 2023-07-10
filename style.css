@@ -57,6 +57,8 @@ nav button {
   display: flex;
   flex-direction: column;
   align-items: center;
+
+  text-align: center;
 }
 
 .main .toDos button {
@@ -66,7 +68,7 @@ nav button {
   font-size: max(1rem, max(0.8vh, 0.8vw));
 }
 
-.main .toDolist {
+.main .toDoList {
   display: grid;
   /* grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); */
   grid-template-rows: repeat(auto-fit, minmax(100px, 1fr));
@@ -97,4 +99,19 @@ form {
 
 form input {
   margin-bottom: 10px;
+}
+
+.projectBar {
+  visibility: hidden;
+  height: 0px;
+}
+
+.buttons1 #addButton2 {
+  background-color: lightgreen;
+  border: 1px solid black;
+}
+
+.buttons1 #cancelButton2 {
+  background-color: lightcoral;
+  border: 1px solid black;
 }
