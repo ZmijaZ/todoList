@@ -62,6 +62,21 @@ nav button {
   width: calc(100vw - var(--nav-width));
 }
 
+.taskBar {
+  visibility: hidden;
+  height: 0px;
+}
+
+#addButton1 {
+  background-color: lightgreen;
+  border: 1px solid black;
+}
+
+#cancelButton1 {
+  background-color: lightcoral;
+  border: 1px solid black;
+}
+
 form {
   display: flex;
   flex-direction: column;
