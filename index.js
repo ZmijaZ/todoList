@@ -1,5 +1,3 @@
-document.body.style.backgroundColor = "lightskyblue";
-
 const addTaskButton = document.querySelector(".addButton");
 const taskBar = document.querySelector(".taskBar");
 
@@ -161,7 +159,8 @@ greenButtonProject.addEventListener("click", (e) => {
   projectBar.style.height = "0px";
 
   addProjectButton.style.visibility = "visible";
-  addProjectButton.style.height = "100%";
+  // TO-DO fix the sizing
+  addProjectButton.style.height = "3.5vh";
 
   let project = Project(projectInput.value);
   projects.push(project);
@@ -185,8 +184,9 @@ greenButtonProject.addEventListener("click", (e) => {
 
 ///////////////////////////////////////////////////////////////////
 const createTaskDiv = (task, title, date) => {
-  //TO-DO Redundant code, set taskClass
+  //TO-DO Redundant code
   let div = document.createElement("div");
+  div.classList.add("task");
   let h20 = document.createElement("h2");
   let h21 = document.createElement("h2");
   let h22 = document.createElement("h2");
@@ -204,7 +204,6 @@ const createTaskDiv = (task, title, date) => {
 };
 
 const createProjectDiv = (project) => {
-  //TO-DO set taskClass
   let div = document.createElement("div");
   div.classList.add("project");
   let h2 = document.createElement("h2");
