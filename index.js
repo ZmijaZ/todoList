@@ -11,8 +11,13 @@ const titleInput = document.querySelector("#title");
 const dateInput = document.querySelector("#date");
 
 const toDoList = document.querySelector(".toDolist");
-
 const tasks = [];
+
+const h1Inbox = document.querySelector(".inbox");
+
+const inboxButton = document.querySelector(".inboxButton");
+const todayButton = document.querySelector(".todayButton");
+const weekButton = document.querySelector(".weekButton");
 
 addTaskButton.addEventListener("click", () => {
   taskBar.style.visibility = "visible";
@@ -36,6 +41,7 @@ greenButton.addEventListener("click", (e) => {
 
   let task = Task(taskInput.value, titleInput.value, dateInput.value);
   tasks.push(task);
+
   toDoList.appendChild(tasks.slice(-1)[0].div);
 
   //cleanup
@@ -51,6 +57,53 @@ redButton.addEventListener("click", () => {
 
   addTaskButton.style.visibility = "visible";
   addTaskButton.style.height = "100%";
+});
+
+inboxButton.addEventListener("click", () => {
+  h1Inbox.textContent = "Inbox";
+
+  toDoList.textContent = "";
+
+  for (x in tasks) {
+    toDoList.appendChild(tasks[x].div);
+  }
+});
+
+todayButton.addEventListener("click", () => {
+  h1Inbox.textContent = "Today";
+
+  toDoList.textContent = "";
+
+  let date = new Date();
+  let month = date.getMonth() + 1;
+  month = month < 10 ? `0${month}` : month;
+  let today = `${date.getFullYear()}-${month}-${date.getDate()}`;
+
+  let todays = tasks.filter((task) => {
+    return task.date == today;
+  });
+
+  for (x in todays) {
+    toDoList.appendChild(todays[x].div);
+  }
+});
+
+weekButton.addEventListener("click", () => {
+  h1Inbox.textContent = "This week";
+
+  toDoList.textContent = "";
+
+  let date = new Date();
+
+  console.log(date.getDay());
+
+  let todays = tasks.filter((task) => {
+    return task.date == today;
+  });
+
+  for (x in todays) {
+    toDoList.appendChild(todays[x].div);
+  }
 });
 
 const createTaskDiv = (task, title, date) => {

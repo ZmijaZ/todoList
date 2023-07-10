@@ -7,8 +7,9 @@
 
 :root {
   --header-height: max(10vh, 70px);
-  --button-width: max(5vw, 70px);
+  --button-width: max(7vw, 70px);
   --nav-width: max(15vw, 150px);
+  --button-height: max(1vh, 30px);
 }
 
 header {
@@ -32,11 +33,23 @@ nav {
   grid-template-rows: repeat(auto-fit, minmax(150px, 1fr));
 }
 
+nav .buttons {
+  background-color: red;
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1%;
+
+  height: calc(calc(var(--button-height) * 3) + 100px);
+}
+
 nav button {
   text-align: left;
   padding-left: 10px;
 
   width: var(--button-width);
+  height: max(10vh, 10px);
   font-size: max(1rem, max(0.8vh, 0.8vw));
 }
 
