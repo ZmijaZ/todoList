@@ -9,6 +9,7 @@ const redButton = document.querySelector("#cancelButton1");
 const taskInput = document.querySelector("#task");
 const titleInput = document.querySelector("#title");
 const dateInput = document.querySelector("#date");
+const projectTInput = document.querySelector("#projectt");
 
 const toDoList = document.querySelector(".toDoList");
 const tasks = [];
@@ -35,6 +36,8 @@ addTaskButton.addEventListener("click", () => {
 
   addTaskButton.style.visibility = "hidden";
   addTaskButton.style.height = "0px";
+
+  projectTInput.value = h1Inbox.textContent;
 });
 
 greenButton.addEventListener("click", (e) => {
@@ -49,7 +52,18 @@ greenButton.addEventListener("click", (e) => {
 
   console.log(taskInput.value, titleInput.value, dateInput.value);
 
-  let task = Task(taskInput.value, titleInput.value, dateInput.value);
+  let task = Task(
+    taskInput.value,
+    titleInput.value,
+    dateInput.value,
+    projectTInput.value
+  );
+  for (x in projects) {
+    if (projects[x].name == task.project) {
+      console.log(projects[x]);
+      projects[x].tasks.push(task.project);
+    }
+  }
   tasks.push(task);
   toDoList.appendChild(tasks.slice(-1)[0].div);
 
@@ -57,6 +71,7 @@ greenButton.addEventListener("click", (e) => {
   taskInput.value = "";
   titleInput.value = "";
   dateInput.value = "";
+  projectTInput.value = "";
 });
 
 redButton.addEventListener("click", () => {
@@ -103,15 +118,15 @@ weekButton.addEventListener("click", () => {
 
   toDoList.textContent = "";
 
-  let date = new Date();
+  // //   let date = new Date();
 
-  let todays = tasks.filter((task) => {
-    return task.date == today;
-  });
+  // //   let todays = tasks.filter((task) => {
+  // //     return task.date == today;
+  // //   });
 
-  for (x in todays) {
-    toDoList.appendChild(todays[x].div);
-  }
+  //   for (x in todays) {
+  //     toDoList.appendChild(todays[x].div);
+  //   }
 });
 
 //PROJECT -------------------------------------------------
@@ -149,11 +164,20 @@ greenButtonProject.addEventListener("click", (e) => {
   addProjectButton.style.height = "100%";
 
   let project = Project(projectInput.value);
-  project.tasks = ["asda"];
   projects.push(project);
-  console.log(projects);
   projectList.appendChild(projects.slice(-1)[0].div);
-  console.log(projectList);
+
+  project.div.addEventListener("click", () => {
+    h1Inbox.textContent = project.name;
+
+    toDoList.textContent = "";
+    let list = tasks.filter((task) => {
+      return task.project == h1Inbox.textContent;
+    });
+    for (x in list) {
+      toDoList.appendChild(list[x].div);
+    }
+  });
 
   //cleanup
   projectInput.value = "";
@@ -182,6 +206,7 @@ const createTaskDiv = (task, title, date) => {
 const createProjectDiv = (project) => {
   //TO-DO set taskClass
   let div = document.createElement("div");
+  div.classList.add("project");
   let h2 = document.createElement("h2");
 
   h2.textContent = project;
@@ -190,19 +215,20 @@ const createProjectDiv = (project) => {
   return div;
 };
 
-const Task = (task, title, date) => {
+const Task = (task, title, date, project) => {
   const printTask = () => {
     console.log(task, title, date);
     if (div) console.log(div);
   };
   let div = createTaskDiv(task, title, date);
-  return { task, title, date, div, printTask };
+  return { task, title, date, project, div, printTask };
 };
 
-const Project = (name, tasks) => {
+const Project = (name) => {
   const printTasks = () => {
     console.log(tasks);
   };
   let div = createProjectDiv(name);
+  let tasks = [];
   return { name, tasks, div, printTasks };
 };
