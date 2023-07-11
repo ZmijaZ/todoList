@@ -28,6 +28,10 @@ const projectBar = document.querySelector(".projectBar");
 const greenButtonProject = document.querySelector("#addButton2");
 const redButtonProject = document.querySelector("#cancelButton2");
 
+//TO-DO think about this
+let edit = false;
+let editedTask;
+
 addTaskButton.addEventListener("click", () => {
   taskBar.style.visibility = "visible";
   taskBar.style.height = "100%";
@@ -42,6 +46,7 @@ greenButton.addEventListener("click", (e) => {
   e.preventDefault();
 
   //TO-DO redundant code
+
   taskBar.style.visibility = "hidden";
   taskBar.style.height = "0px";
 
@@ -56,14 +61,26 @@ greenButton.addEventListener("click", (e) => {
     dateInput.value,
     projectTInput.value
   );
-  for (x in projects) {
-    if (projects[x].name == task.project) {
-      console.log(projects[x]);
-      projects[x].tasks.push(task.project);
+
+  if (!edit) {
+    for (x in projects) {
+      if (projects[x].name == task.project) {
+        console.log(projects[x]);
+        projects[x].tasks.push(task.project);
+      }
     }
+    tasks.push(task);
+
+    toDoList.appendChild(tasks.slice(-1)[0].div);
   }
-  tasks.push(task);
-  toDoList.appendChild(tasks.slice(-1)[0].div);
+
+  //TO-DO make this work
+  if (edit) {
+    console.log(editedTask);
+    editToDoItem(editedTask);
+
+    edit = !edit;
+  }
 
   //cleanup
   taskInput.value = "";
@@ -182,24 +199,75 @@ greenButtonProject.addEventListener("click", (e) => {
   projectInput.value = "";
 });
 
+//TO-DO decompose code
 ///////////////////////////////////////////////////////////////////
-const createTaskDiv = (task, title, date) => {
+const createTaskDiv = (task, title, date, project) => {
   //TO-DO Redundant code
   let div = document.createElement("div");
   div.classList.add("task");
   let h20 = document.createElement("h2");
   let h21 = document.createElement("h2");
   let h22 = document.createElement("h2");
+  let h23 = document.createElement("h2");
 
   h20.textContent = task;
   div.appendChild(h20);
-
   h21.textContent = title;
   div.appendChild(h21);
-
   h22.textContent = date;
   div.appendChild(h22);
+  h23.textContent = project;
+  div.appendChild(h23);
 
+  //buttons
+  let buttons = document.createElement("div");
+  buttons.classList.add("taskButtons");
+
+  let button1 = document.createElement("button");
+  button1.textContent = "delete";
+  let button2 = document.createElement("button");
+  button2.textContent = "edit";
+  let button3 = document.createElement("button");
+  button3.textContent = "Mark complete";
+
+  buttons.appendChild(button1);
+  buttons.appendChild(button2);
+  buttons.appendChild(button3);
+
+  div.appendChild(buttons);
+
+  //button functions
+  button1.addEventListener("click", () => {
+    toDoList.removeChild(div);
+  });
+
+  //TO-DO make this work
+  button2.addEventListener("click", () => {
+    taskBar.style.visibility = "visible";
+    taskBar.style.height = "100%";
+    addTaskButton.style.visibility = "hidden";
+    addTaskButton.style.height = "0px";
+
+    taskInput.value = h20.textContent;
+    titleInput.value = h21.textContent;
+    dateInput.value = h22.textContent;
+    projectTInput.value = h23.textContent;
+
+    editedTask = task;
+    edit = true;
+  });
+
+  button3.addEventListener("click", () => {
+    if (button3.innerText == "Mark complete") {
+      button3.textContent = "Mark incomplete";
+      div.style.opacity = 0.7;
+
+      console.log(task);
+    } else {
+      button3.textContent = "Mark complete";
+      div.style.opacity = 1;
+    }
+  });
   return div;
 };
 
@@ -208,8 +276,12 @@ const createProjectDiv = (project) => {
   div.classList.add("project");
   let h2 = document.createElement("h2");
 
+  let button = document.createElement("button");
+  button.textContent = "X";
+
   h2.textContent = project;
   div.appendChild(h2);
+  div.appendChild(button);
 
   return div;
 };
@@ -219,7 +291,7 @@ const Task = (task, title, date, project) => {
     console.log(task, title, date);
     if (div) console.log(div);
   };
-  let div = createTaskDiv(task, title, date);
+  let div = createTaskDiv(task, title, date, project);
   return { task, title, date, project, div, printTask };
 };
 
@@ -230,4 +302,26 @@ const Project = (name) => {
   let div = createProjectDiv(name);
   let tasks = [];
   return { name, tasks, div, printTasks };
+};
+
+/// editing
+
+const setEditTask = (task) => {
+  editedTask = task;
+};
+
+const editToDoItem = (task) => {
+  for (x in tasks) {
+    if (tasks[x].task == task) {
+      tasks[x].task = taskInput.value;
+      tasks[x].title = titleInput.value;
+      tasks[x].date = dateInput.value;
+
+      tasks[x].div.children.item(0).textContent = taskInput.value;
+      tasks[x].div.children.item(1).textContent = titleInput.value;
+      tasks[x].div.children.item(2).textContent = dateInput.value;
+
+      // console.log(tasks[x].div.children.item(0).textContent);
+    }
+  }
 };
